@@ -1,5 +1,5 @@
 # Bigdata-project
-Part-I. Understanding FASTQ format
+Part-I. Understanding FASTQ format&Part-2: Understanding reference genome (sequence and annotation)
 1) Using a toy fastq example file “/fastq/toy.fastq” 
    where every four lines correspond to one sequence read:
 a) What is given in the first line?

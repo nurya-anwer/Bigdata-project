@@ -2,6 +2,7 @@
 Part-I. Understanding FASTQ format&Part-2: Understanding reference genome (sequence and annotation)
 1) Using a toy fastq example file “/fastq/toy.fastq” 
    where every four lines correspond to one sequence read:
+   
 a) What is given in the first line?
 @SRR1039508.1 HWI-ST177:290:C0TECACXX:1:1101:1225:2130 length=63
 Abbreviation 	                        Meaning

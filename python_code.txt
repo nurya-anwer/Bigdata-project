@@ -1,0 +1,854 @@
+## 1.fasta-parser.py
+Function: This script will print (std out) the sequence of a record with id equals "ENST00000357654".
+Command line input: python fasta-parser.py -i <filename.fasta>
+Input file: sample.fasta
+
+import os,sys
+import string
+from optparse import OptionParser
+from Bio import SeqIO
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will print (std out) the sequence of a record with id equals "ENST00000357654".
+This script has three options, you can execute the script in three ways:
+1. python fasta-parser.py --version
+This is the option that show you the program's version.
+2. python fasta-parser.py -h
+This can show you some help information.
+3. python fasta-parser.py -i <filename.fasta>
+-i specifies input
+Usage:
+python fasta-parser.py -i <filename.fasta>
+"""
+
+###############################
+def main():
+
+        usage = "\n%prog  [options]"
+        parser = OptionParser(usage,version="%prog " + __version__)
+        parser.add_option("-i","--fastaFile",action="store",dest="fastaFile",help="Input fastaFile")
+
+        (options,args) = parser.parse_args()
+        for file in ([options.fastaFile]):
+                if not (file):
+                        parser.print_help()
+                        sys.exit(0)
+
+        fastaFile = options.fastaFile
+
+	for record in SeqIO.parse(fastaFile, "fasta"):
+		if record.id == "ENST00000357654":
+			print ("%s" % (record.seq))
+
+
+
+
+if __name__ == '__main__':
+        main()
+
+
+## 2.fastq-parser.py
+Function: This script will print (std out) the read_id, read_seq and read_qual from the input fastq file.
+Command line input: python fastq-parser.py -i <filename.fastq>
+Input file: 1G_data.fastq
+
+import os,sys
+import string
+from optparse import OptionParser
+from Bio import SeqIO
+
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will print (std out) the read_id, read_seq and read_qual from the input fastq file.
+This script has three options, you can execute the script in three ways:
+1. python fastq-parser.py --version
+This is the option that show you the program's version.
+2. python fastq-parser.py -h
+This can show you some help information.
+3. python fastq-parser.py -i <filename.fastq>
+-i specifies input
+Usage:
+python fastq-parser.py -i <filename.fastq>
+"""
+
+###############################
+def main():
+
+        usage = "\n%prog  [options]"
+        parser = OptionParser(usage,version="%prog " + __version__)
+        parser.add_option("-i","--fastqFile",action="store",dest="fastqFile",help="Input fastqFile")
+
+        (options,args) = parser.parse_args()
+        for file in ([options.fastqFile]):
+                if not (file):
+                        parser.print_help()
+                        sys.exit(0)
+
+        fastqFile = options.fastqFile
+
+        qual_sum = 0
+        n = 0
+        c_count, g_count = 0, 0
+	    for record in SeqIO.parse(fastqFile, "fastq"):
+                read_id = record.id
+                read_seq = str(record.seq)
+                read_qual = record.letter_annotations["phred_quality"]
+                print (read_id)
+                print (read_seq)
+                print (read_qual)
+                print ("\n")
+
+                #c_count += len(re.findall(r"C",read_seq))
+                #g_count += len(re.findall(r"G",read_seq))
+                #qual_sum +=  int(read_qual)
+                n += 1
+        #average = qual_sum/n
+
+        #print "total quality for the first position %s for %s reads" % (qual_sum, n)
+        #print "average quality %s " %(average) 
+        #print c_count + g_count
+
+
+
+
+
+if __name__ == '__main__':
+        main()
+
+## 3.Function: This script will print (std out) the read_id, read_seq and read_qual from the input fastq file.
+Command line input: python fastq-parser.py -i <filename.fastq>
+Input file: 1G_data.fastq
+
+## 4. csv-parser.1.py
+Function: This script will transfer the .csv file to dataframe and print(std out) all the rows in the file with row number.
+Command line input: python csv-parser.1.py -i <filename.csv>
+Input file: A.csv
+
+import os,sys
+import string
+import json
+from optparse import OptionParser
+import csv
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will transfer the .csv file to dataframe and print(std out) all the rows in the file with row number.
+This script has three options, you can execute the script in three ways:
+1. python csv-parser.1.py --version
+This is the option that show you the program's version.
+2. python csv-parser.1.py -h
+This can show you some help information.
+3. python csv-parser.1.py -i <filename.csv>
+-i specifies input
+Usage:
+python csv-parser.1.py -i <filename.csv>
+"""
+
+def main():
+
+	usage = "\n%prog  [options]"
+	parser = OptionParser(usage,version="%prog " + __version__)
+	parser.add_option("-i","--infile",action="store",dest="infile",help="Input file")
+
+	(options,args) = parser.parse_args()
+	for file in ([options.infile]):
+		if not (file):
+			parser.print_help()
+			sys.exit(0)
+
+	inFile = options.infile
+
+	with open(inFile, 'r') as FR:
+        	dataFrame = csv.reader(FR, delimiter=',', quotechar='"')
+        	rowCount = 0
+		for row in dataFrame:
+			rowCount += 1
+			print (rowCount, row)
+
+
+
+
+if __name__ == '__main__':
+        main()
+## 5. dump-csv-stats.py
+
+Function: This script will print (std out) the fieldnames and the number of elements in each fieldname after spited by value.
+Command line input: python dump-csv-stats.py -i <filename.csv> -d value
+Input file: A.csv
+
+import os,sys
+import string
+import json
+from optparse import OptionParser
+import csv
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will print (std out) the fieldnames and the number of elements in each fieldname after spited by value.
+This script has three options, you can execute the script in three ways:
+1. python dump-csv-stats.py --version
+This is the option that show you the program's version.
+2. python dump-csv-stats.py -h
+This can show you some help information.
+3. python dump-csv-stats.py -i <filename.csv> -d value
+-i specifies input
+Usage:
+python dump-csv-stats.py -i <filename.csv> -d value
+"""
+###############################
+def main():
+
+	usage = "\n%prog  [options]"
+	parser = OptionParser(usage,version="%prog " + __version__)
+	parser.add_option("-i","--infile",action="store",dest="infile",help="CSV input file")
+	parser.add_option("-d","--delim",action="store",dest="delim",help="Multi value column separator")
+
+
+	(options,args) = parser.parse_args()
+	for file in ([options.infile, options.delim]):
+		if not (file):
+			parser.print_help()
+			sys.exit(0)
+
+
+	inFile = options.infile
+	delim = options.delim
+
+	seen = {}
+
+	count = {}
+	fieldList = []
+	with open(inFile, 'r') as csvfile:
+        	csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        	rowCount = 0
+		for row in csvreader:
+			rowCount += 1
+			if rowCount == 1:
+				fieldList = row
+				for fieldName in fieldList:
+					count[fieldName] = 0
+					seen[fieldName] = {}
+			else:
+				for j in range(0, len(row)):
+					fieldName = fieldList[j]
+					valueList = row[j].strip().split(delim)
+
+					for val in valueList:
+						if val not in seen[fieldName]:
+							count[fieldName] += 1
+						seen[fieldName][val] = True
+
+
+	for fieldName in fieldList:
+		print (fieldName, count[fieldName])
+
+
+
+if __name__ == '__main__':
+        main()
+
+
+## 6. dump-csv-stats.py
+
+Function: This script will print (std out) the fieldnames and the number of elements in each fieldname after spited by value.
+Command line input: python dump-csv-stats.py -i <filename.csv> -d value
+Input file: A.csv
+
+import os,sys
+import string
+import json
+from optparse import OptionParser
+import csv
+from Bio import SeqIO
+
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will check the .fasta file that if there are duplicate IDs in the sequence.
+This script has three options, you can execute the script in three ways:
+1. python dump-fasta-stats.py --version
+This is the option that show you the program's version.
+2. python dump-fasta-stats.py -h
+This can show you some help information.
+3. python dump-fasta-stats.py -i <filename.fasta>
+This will check the .fasta file that if there are duplicate IDs in the sequence. 
+If yes, it will output "Id repeated: bad fasta file".
+If no, it will output the number of sequence.
+-i specifies input
+Usage:
+python dump-fasta-stats.py -i <filename.fasta>
+"""
+###############################
+def main():
+
+	usage = "\n%prog  [options]"
+	parser = OptionParser(usage,version="%prog " + __version__)
+	parser.add_option("-i","--infile",action="store",dest="infile",help="FASTA input file")
+
+
+	(options,args) = parser.parse_args()
+	for file in ([options.infile]):
+		if not (file):
+			parser.print_help()
+			sys.exit(0)
+
+
+	inFile = options.infile
+	seen = {}
+	count = 0
+	for record in SeqIO.parse(inFile, "fasta"):
+		if record.id in seen:
+			print ("Id repeated: bad fasta file")
+			sys.exit()
+		count += 1
+		seen[record.id] = True
+
+	print ("Number of sequence:", count)
+
+
+
+
+if __name__ == '__main__':
+        main()
+
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+
+## 7. dump-fasta-stats.py
+Function: This script will check the .fasta file that if there are duplicate IDs in the sequence.
+Command line input: python dump-fasta-stats.py -i <filename.fasta>
+Input file: sample.fasta
+
+import os,sys
+import string
+import json
+from optparse import OptionParser
+import csv
+from Bio import SeqIO
+
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will check the .fasta file that if there are duplicate IDs in the sequence.
+This script has three options, you can execute the script in three ways:
+1. python dump-fasta-stats.py --version
+This is the option that show you the program's version.
+2. python dump-fasta-stats.py -h
+This can show you some help information.
+3. python dump-fasta-stats.py -i <filename.fasta>
+This will check the .fasta file that if there are duplicate IDs in the sequence. 
+If yes, it will output "Id repeated: bad fasta file".
+If no, it will output the number of sequence.
+-i specifies input
+Usage:
+python dump-fasta-stats.py -i <filename.fasta>
+"""
+###############################
+def main():
+
+	usage = "\n%prog  [options]"
+	parser = OptionParser(usage,version="%prog " + __version__)
+	parser.add_option("-i","--infile",action="store",dest="infile",help="FASTA input file")
+
+
+	(options,args) = parser.parse_args()
+	for file in ([options.infile]):
+		if not (file):
+			parser.print_help()
+			sys.exit(0)
+
+
+	inFile = options.infile
+	seen = {}
+	count = 0
+	for record in SeqIO.parse(inFile, "fasta"):
+		if record.id in seen:
+			print ("Id repeated: bad fasta file")
+			sys.exit()
+		count += 1
+		seen[record.id] = True
+
+	print ("Number of sequence:", count)
+
+
+
+
+if __name__ == '__main__':
+        main()
+
+## 8. foramanraj.1.py
+Function: This script will print(std out) all the fieldnames and field in the file path.
+Command line input: python foramanraj.py
+Input file: No input files are required.
+
+import os,sys
+import string
+import json
+from optparse import OptionParser
+import csv
+import glob
+
+
+__version__="1.0"
+__status__ = "Dev"
+"""
+This script will print(std out) all the fieldnames and field in the file path.
+input: 
+all the <filename.csv> under folder you set.
+Usage:
+python foramanraj.py
+"""
+
+###############################
+def main():
+
+
+
+	pattern = "*.csv"
+	filePathList = glob.glob(pattern)
+
+	seen  = {}
+	for filePath in filePathList:
+		fNames = os.path.basename(filePath)
+		with open(filePath, 'r') as FR:
+        		dataFrame = csv.reader(FR, delimiter=',', quotechar='"')
+        		rowCount = 0
+			for row in dataFrame:
+				rowCount += 1
+				if rowCount == 1:
+					for field in row:
+						if field not in seen:
+							seen[field] = []
+						seen[field].append(fNames)
+
+	for field in seen:
+		fNamess = seen[field]
+		if len(fNamess) > 1:
+			for i in range(0, len(fNamess)):
+				for j in range(i, len(fNamess)):
+					o = "%s.%s,%s.%s" % (fNamess[i],field,fNames[j],field)
+					print (o)
+
+
+if __name__ == '__main__':
+        main()
+
+## 9. parse-big-fasta.py
+
+Function: This script was designed to parse the RVDB formatted FASTA headers so they can be interperated by HIVE-hexagon's tablequery
+Command line input: python parse-big-fasta.py -i <filename.fastq>
+Input file: N/A
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+################################################################################
+                        ##parse-big-fasta.py##
+"""designed to parse the RVDB formatted FASTA headers so they can be interperated by HIVE-hexagon's tablequery"""
+################################################################################
+
+__version__="1.0"
+__status__ = "Dev"
+
+import re
+import sys
+import argparse
+
+#______________________________________________________________________________#
+def create_arg_parser():
+    """"
+    Creates and returns the ArgumentParser object.
+    """
+
+    parser = argparse.ArgumentParser(description='Fixes RVDB fasta file header format for HIVE-hexagon and tablequery.')
+
+    parser.add_argument('inputFASTA',
+                    help='Path to the input FASTA.')
+
+    parser.add_argument('-o', '--output',
+                    help='The output file for the new FASTA. If no output is provided the default will just append NEW to the file name')
+
+    return parser
+
+#______________________________________________________________________________#
+def format_header ( parsed_args ):
+    """
+    parse the RVDB formatted FASTA headers and re-writes in desired format
+    """
+
+    accessions = []
+    with open (parsed_args.inputFASTA) as infile:
+        reader = infile.readlines()
+        try:
+            with open (parsed_args.output, 'w') as outfile:
+                for line in reader:
+                    if re.search('^>',line):
+                        newline = line.split('|')[2:]
+                        newline = '>gb|'+'|'.join(newline)
+                        accessions.append(newline[0])
+                        outfile.writelines(newline)
+                    else: outfile.writelines(line)
+        except:
+            outfile = 'new_'+parsed_args.inputFASTA
+            with open (outfile, 'w') as outfile:
+                for line in reader:
+                    if re.search('^>',line):
+                        newline = line.split('|')[2:]
+                        accessions.append(newline[0])
+                        newline = '>gb|'+'|'.join(newline)
+                        outfile.writelines(newline)
+                    else: outfile.writelines(line)
+
+    return accessions
+#______________________________________________________________________________#
+
+def main(  ):
+    arg_parser = create_arg_parser()
+    parsed_args = arg_parser.parse_args(sys.argv[1:])
+    accessions = format_header(parsed_args)
+    print accessions
+    with open ('accessions.txt', 'w') as acc:
+        for a in accessions:
+            acc.write(a+'\n')
+
+
+#______________________________________________________________________________#
+if __name__ == "__main__":
+    main()
+	
+## 10. parse-csv.py
+Function: This script will print(std out) an array. This array contains the original csv file and add a column at last. Elements in the new last column is the product of the third row and the fourth row, and it will ignore the first row(because it is normally titles for the rows)
+Command line input: python parse-csv.py
+Input file: No input files are required.
+
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+################################################################################
+                        ##parse-big-fasta.py##
+"""designed to parse the RVDB formatted FASTA headers so they can be interperated by HIVE-hexagon's tablequery"""
+################################################################################
+
+__version__="1.0"
+__status__ = "Dev"
+
+import re
+import sys
+import argparse
+
+#______________________________________________________________________________#
+def create_arg_parser():
+    """"
+    Creates and returns the ArgumentParser object.
+    """
+
+    parser = argparse.ArgumentParser(description='Fixes RVDB fasta file header format for HIVE-hexagon and tablequery.')
+
+    parser.add_argument('inputFASTA',
+                    help='Path to the input FASTA.')
+
+    parser.add_argument('-o', '--output',
+                    help='The output file for the new FASTA. If no output is provided the default will just append NEW to the file name')
+
+    return parser
+
+#______________________________________________________________________________#
+def format_header ( parsed_args ):
+    """
+    parse the RVDB formatted FASTA headers and re-writes in desired format
+    """
+
+    accessions = []
+    with open (parsed_args.inputFASTA) as infile:
+        reader = infile.readlines()
+        try:
+            with open (parsed_args.output, 'w') as outfile:
+                for line in reader:
+                    if re.search('^>',line):
+                        newline = line.split('|')[2:]
+                        newline = '>gb|'+'|'.join(newline)
+                        accessions.append(newline[0])
+                        outfile.writelines(newline)
+                    else: outfile.writelines(line)
+        except:
+            outfile = 'new_'+parsed_args.inputFASTA
+            with open (outfile, 'w') as outfile:
+                for line in reader:
+                    if re.search('^>',line):
+                        newline = line.split('|')[2:]
+                        accessions.append(newline[0])
+                        newline = '>gb|'+'|'.join(newline)
+                        outfile.writelines(newline)
+                    else: outfile.writelines(line)
+
+    return accessions
+#______________________________________________________________________________#
+
+def main(  ):
+    arg_parser = create_arg_parser()
+    parsed_args = arg_parser.parse_args(sys.argv[1:])
+    accessions = format_header(parsed_args)
+    print accessions
+    with open ('accessions.txt', 'w') as acc:
+        for a in accessions:
+            acc.write(a+'\n')
+
+
+#______________________________________________________________________________#
+if __name__ == "__main__":
+    main()
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+
+## 11. sas7bdatTocsv.1.py
+Function: This script will transfer the .sas7bdat file to .csv format and print(std out) each line of the file(replace all the "," with ":" in each row).
+Command line input: python sas7bdatTocsv.2.py -i <filename.sas7bdat>
+Input file:gold.sas7bdat
+
+import os,sys
+import string
+import csv
+from optparse import OptionParser
+from sas7bdat import SAS7BDAT
+
+
+__version__="1.0"
+__status__ = "Dev"
+"""
+This script will transfer the .sas7bdat file to .csv format 
+and print(std out) each line of the file(replace all the "," with ":" in each row).
+This script has three options, you can execute the script in three ways:
+1. python sas7bdatTocsv.2.py --version
+This is the option that show you the program's version.
+2. python sas7bdatTocsv.2.py -h
+This can show you some help information.
+3. python sas7bdatTocsv.2.py -i <filename.sas7bdat>
+-i specifies input
+Usage:
+python sas7bdatTocsv.2.py -i <filename.sas7bdat>
+"""
+
+###############################
+def main():
+
+        usage = "\n%prog  [options]"
+        parser = OptionParser(usage,version="%prog " + __version__)
+        parser.add_option("-i","--sasFile",action="store",dest="sasFile",help="Input sas file")
+
+
+        (options,args) = parser.parse_args()
+        for file in ([options.sasFile]):
+                if not (file):
+                        parser.print_help()
+                        sys.exit(0)
+
+        sasFile = options.sasFile
+	with SAS7BDAT(sasFile) as f:
+    		for row in f:
+			line = str(row[0])
+			for i in range(1,len(row)):
+				row[i] = str(row[i])
+				row[i] = row[i].replace(",", ";")
+				line += ", %s" % (str(row[i]))
+			print (line)
+
+
+if __name__ == '__main__':
+        main()
+
+
+
+
+
+## 12. toy.py
+Function: This script will print(std out) all the rows with row number in a .csv file.
+Command line input: python parse-csv.py
+Input file: No input files are required.
+
+import csv
+
+"""
+This script will print(std out) all the rows with row number in a .csv file.
+Usage:
+python toy.py
+"""
+with open("A.csv", 'rb') as csvfile:
+	csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+	for row in csvreader:
+		for j in range(0,len(row)):
+			print (j,row[j])
+
+## 13.xml-parser.1.py
+Function: This script will print(std out) some domains of a .xml file.
+Command line input: python xml-parser.1.py -i <filename.xml>
+Input file:sample.xml
+
+import os,sys
+import string
+from optparse import OptionParser
+from lxml import etree
+from io import StringIO
+
+__version__="1.0"
+__status__ = "Dev"
+
+"""
+This script will print(std out) some domains of a .xml file.
+This script has three options, you can execute the script in three ways:
+1. python xml-parser.1.py --version
+This is the option that show you the program's version.
+2. python xml-parser.1.py -h
+This can show you some help information.
+3. python xml-parser.1.py -i <filename.xml>
+-i specifies input
+This option will open the .xml file you input.
+If the element tag is "book", it will output all the attributes of elements. 
+If the element tag is "title", it will output the text of the elements.
+Usage:
+python xml-parser.1.py -i <filename.xml>
+"""
+###############################
+def main():
+
+        usage = "\n%prog  [options]"
+        parser = OptionParser(usage,version="%prog " + __version__)
+        parser.add_option("-i","--xmlFile",action="store",dest="xmlFile",help="Input xml file")
+
+        (options,args) = parser.parse_args()
+        for file in ([options.xmlFile]):
+                if not (file):
+                        parser.print_help()
+                        sys.exit(0)
+
+        xmlFile = options.xmlFile
+
+	FR = open(xmlFile)
+	xml = FR.read()
+        FR.close()
+
+	context =  etree.iterparse(StringIO(xml), events=("start", "end"))
+	 
+	for action, elem in context:
+		if action == "start":
+                        if elem.tag == "book":
+                                print (elem.attrib["id"])
+			elif elem.tag == "title":
+                                print (elem.text)
+
+
+
+
+
+if __name__ == '__main__':
+        main()
+
+
+
+
+
+
+
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+## 14.quote_csv.py
+Function: This script will add double quotes to all values in a csv file. If a value is already quoted, quotes will not be added to that value. If there is quoted text within a value the quoted text will now have two sets of quotes e.g. ""quoted text"".
+Command line input: python quote_csv.py -f input.csv -o output.csv
+Input file: any csv file.
+# For editing the csv file.
+import csv
+
+# For taking command line arguments.
+import argparse
+
+# Arguments
+# ---------
+
+# csv_file: the path to the original csv file to edit.
+
+# output_file: the path to the output csv file that will contain the edits. File does not need to already exist.
+
+# Returns
+# -------
+
+# The edited csv file to the path specified in output_file argument.
+
+
+def main(csv_file, output_file):
+
+    # Read the original csv file and load data into a list.
+    with open(csv_file, 'r') as file:
+        original_file = csv.reader(file)
+
+        # Create a list to hold the data.
+        data = []
+
+        # Add to the data list.
+        for row in original_file:
+            data.append(row)
+
+    # Write data list to the new file with quotes around all values.
+    with open(output_file, 'w') as out_file:
+        writer = csv.writer(out_file, quoting=csv.QUOTE_ALL)
+        writer.writerows(data)
+
+    # Output message.
+    print('csv file ' + csv_file + ' written with quotes to ' + output_file)
+
+# Command line arguments.
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Commands for mapping script.')
+    parser.add_argument('--csv_file', '-f',
+                        help='The csv file')
+    parser.add_argument('--output_file', '-o',
+                        help='The output file')
+    args = parser.parse_args()
+
+    main(args.csv_file, args.output_file)

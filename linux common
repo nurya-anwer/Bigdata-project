@@ -22,3 +22,80 @@ c)Find the coordinates for the MPV17 (ENSG00000115204) gene using
 
 Command: grep ENSG00000115204 Homo_sapiens.GRCh37.75.gtf | cut -f3,4,5,7 | head
        Output: 27532360    27548547
+
+Sam file
+a) What is the number of lines in that file?
+Command: wc -l  nainiwan72-aln-SRR1039508.Aligned.out.sam
+Output: 13291635 
+
+b) How much disk space is the file taking (in MegaBytes)?
+Command: ls -l --b=MB nainiwan72-aln-SRR1039508.Aligned.out.sam | cut -d " " -f5
+Output:2919MB
+
+c) What is a BAM format (in relation to the SAM format)?
+The Binary Alignment Map (BAM) file, is a binary equivalent of a SAM file, which stores the same data in a compressed binary representation. 
+
+➢ Both contain identical information about reads and their mapping. 
+➢ A BAM file requires a header but a SAM file may not have one. (Use 'samtools view -h reads.bam' to print the header with the mapped reads.) 
+➢ Many operations (such as sorting and indexing) work only on BAM files. 
+➢ For almost any application that requires SAM input, this can be created on the fly from a BAM file (using 'samtools view reads.bam |'). 
+➢ BAM files take up much less space than SAM files. 
+➢ For archiving purposes, keep only the BAM fWhat command would you use to change your output SAM formatile. The SAM file can easily be regenerated (if ever needed).
+
+d) What command would you use to change your output SAM format to BAM format?
+ Samtools view command can convert SAM file into a BAM file. 
+ samtools view -S -b nainiwan72-aln-SRR1039508.Aligned.out.sam > nainiwan72-aln-SRR1039508.Aligned.out.bam
+e) How much disk space is the corresponding bam file?
+(/courses/example-data/sam/SRR1039508.Aligned.out.bam) taking?
+  Command: ls -l --block-size=MB SRR1039508.Aligned.out.bam
+  Output: 	 38 MegaBytes 	 
+
+Part-6: Parsing aligned reads for gene "MPV17" located in chr_2:27532360-27548547
+The following command:python sam-parser.py -i /tmp/$username-aln-SRR1039508.Aligned.out.sam
+    head lists out splicing junction in the "MPV17" gene sorted by the number of times
+    (frequency) the position has been observed.
+27615747 1
+27545857 1
+27786509 1
+27655828 1
+27782817 1
+27615964 1
+28159036 1
+27558465 1
+27733977 1
+27692635 1
+27550044 1
+27697501 1
+27556839 1
+27617000 1
+27567083 1
+27671297 1
+27794557 1
+27560446 1
+27539945 3
+27545919 6
+27535361 90
+27535082 100
+27545315 112
+27534767 116
+27535547 133
+27535861 166
+
+
+Now let's have a look at the annotation or gtf file.
+     Use the command given below lists transcripts for MPV17 along with the exon start positions. Which transcripts contain all the exon start positions given out in step (f)?
+
+   Comman : pypython extract-exons.py > nuj.txt
+                   :cat nuj.txt | grep 27535361 | grep 27535082 | grep 27545315 | grep 27534767 | grep 27535547 | grep 27535861
+   Output:
+"ENST00000426513" ['27532408', '27534767', '27535082', '27535361', '27535547', '27535861', '27545315', '27545919']
+"ENST00000380044" ['27532362', '27534767', '27535082', '27535361', '27535547', '27535861', '27545315', '27545919']
+"ENST00000403262" ['27534363', '27534767', '27535082', '27535361', '27535547', '27535861', '27545315', '27545919']
+"ENST00000405983" ['27532514', '27534767', '27535082', '27535361', '27535547', '27535861', '27545315', '27545919']
+"ENST00000233545" ['27532360', '27534767', '27535082', '27535361', '27535547', '27535861', '27545315']
+The transcripts contain all the exon start positions given out previews step are :
+"ENST00000426513" 
+"ENST00000380044" 
+"ENST00000403262" 
+"ENST00000405983" 
+"ENST00000233545" 

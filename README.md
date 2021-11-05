@@ -47,3 +47,11 @@ Col Field 	    Read 1	Description
 9	attribute	gene_id	  All nine features have the same two mandatory attributes at the end of the record.
                           gene_id value; A globally unique identifier for the genomic locus of the transcript. If empty, no gene is associated with this feature. 
                           transcript_id value; A globally unique identifier for the predicted transcript. If empty, no transcript is associated with this feature. "ENSG00000223972"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene";
+   
+Part-3: Indexing reference genome
+   The "star-index.sh" shell script indexes (prepares) a subset of your genome 
+   
+Part-4: Using STAR short read alignment program   
+   The "star-align.sh" shell script performs the alignment of reads from sample SRR1039508 to the partial genome indexed in the previous step.
+        nohup sh star-align.sh &
+  nohup command explanation: The nohup command executes another program specified as its argument and ignores all SIGHUP (hangup) signals. SIGHUP is a signal that is sent to a process when its controlling terminal is closed. Usually, when you run a program over SSH, if your connection drops or you log out, the session is terminated, and all the processes executed from the terminal will stop. This is where the nohup command comes handy. It ignores all hangup signals, and the process will continue to run.

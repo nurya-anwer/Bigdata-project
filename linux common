@@ -1,0 +1,9 @@
+e)What is the number of lines in that file?
+Command: wc -l toy.fastq
+Output : 4000
+f)How many reads are represented in that file?
+Command: echo $(cat toy.fastq|wc -l)/4|bc 
+Output: 10000
+g) How much disk space is the file taking (in MegaBytes)?
+Command:   ls -l --b=MB toy.fastq | cut -d " " -f5
+Output: 3MB

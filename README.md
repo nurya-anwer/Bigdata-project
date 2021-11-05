@@ -34,9 +34,11 @@ In this encoding, the quality score is represented as the character with the Ame
 
  Part-2: Understanding reference genome (sequence and annotation)
  1) Using a real gtf example file “/gtf/Homo_sapiens.GRCh37.75.gtf”:
-  a) With the help of online documentation for gtf file, list each column and give description.
+ 
+a) With the help of online documentation for gtf file, list each column and give description.
   
 Col Field 	    Read 1	Description
+
 1	seqname	     1	      seqname - name of the chromosome or scaffold; chromosome                             names can be given with or without the 'chr' prefix.
 2	source	    pseudogene	Indicating where the annotations came from --- typically                            the name of either a prediction program or a public                                  database.
 3	featuretype	 gene	     Feature type name, e.g. Gene, Variation, Similarity
